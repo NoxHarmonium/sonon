@@ -1,0 +1,132 @@
+swagger: "2.0"
+info:
+  description: "This is a spec for accessing the eWeLink API that was created by reverse engineering the API calls from the app. It may stop working at anytime without notice if they change the spec."
+  version: "1.0.0"
+  title: "eWeLink API"
+  contact:
+    email: "contact@seandawson.info"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.coolkit.cc:8080"
+basePath: "/api"
+schemes:
+- "https"
+paths:
+  /user/login:
+    post:
+      summary: "Authenticate with your eWeLink credentials."
+      description: "Will return a refresh token, access token and also user data."
+      operationId: "userLogin"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Login request object"
+        required: true
+        schema:
+          $ref: "#/definitions/LoginRequest"
+      responses:
+        200:
+          description: "The API always returns a 200 status but will have an error key if there is an error"
+          schema:
+            $ref: '#/definitions/LoginResponse'
+
+definitions:
+  LoginRequest:
+    type: "object"
+    properties:
+      apkVersion:
+        type: "string"
+        example: "3.1.5"
+      os:
+        type: "string"
+        example: "ios"
+      model:
+        type: "string"
+        example: "iPhone8,4"
+      imei:
+        type: "string"
+        example: "D139421A-17B5-11E8-B642-0ED5F89F718B"
+      appid:
+        type: "string"
+        example: "Lrqu2c0rvPGbxOd3C93VmnUD1tdOC4mt"
+      romVersion:
+        type: "string"
+        example: "11.2.5"
+      password:
+        type: "string"
+        example: "fooBar"
+      email:
+        type: "string"
+        example: "foo@example.com"
+      version:
+        type: "integer"
+        example: 6
+      ts:
+        type: "string"
+        example: "1519291722"
+      nonce:
+        type: "string"   
+        example: "3eA2azdu"
+  LoginResponse:
+    type: "object"
+    properties:
+      at: 
+        type: "string"
+        example: "JmT3zsNZnVeLJGmrUO013jmV8zvJ521O8u5RqIuD"
+      rt: 
+        type: "string"
+        example: "kVjl1KozyLGWZP7iZpvqrrCsNoqQSOdlnHCOuWos"
+      user:
+        type: "object"
+        properties:
+          _id:
+            type: "string"
+            example: "YD9LtYSopFHp3MaYh5lHs0Af"
+          email:
+            type: "string"
+            example: "foo@example.com"
+          appId:
+            type: "string"
+            example:  "v2qabvyblg2kySHgAf81ncyOqOjhN9ty"
+          lang:
+            type: "string"
+            example:  "en"
+          online:
+            type: "boolean"
+            example:  false
+          onlineTime:
+            type: "string"
+            format: "date-time"
+            example:  '2018-02-22T09:28:45.206Z'
+          ip:
+            type: "string"
+            example:  "10.10.10.10"
+          location:
+            type: "string"
+            example:  ""
+          offlineTime:
+            type: "string"
+            format: "date-time"
+            example:  '2018-02-22T09:31:19.840Z'
+          nickname:
+            type: "string"
+            example:  "Some Nickname"
+          createdAt:
+            type: "string"
+            example:  '2018-02-12T08:23:22.139Z'
+          apikey:
+            type: "string"
+            example:  "4ffc859a-d8f3-4a5b-b4d0-ae06b9ecaa21"
+      region: 
+        type: "string"
+        example: "us"
+      error:
+        type: "integer"
+        example: 401
+        
+

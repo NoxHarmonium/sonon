@@ -1,0 +1,262 @@
+swagger: "2.0"
+info:
+  description: "This is a spec for accessing the eWeLink API that was created by reverse engineering the API calls from the app. It may stop working at anytime without notice if they change the spec."
+  version: "1.0.0"
+  title: "eWeLink API"
+  contact:
+    email: "contact@seandawson.info"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "us-api.coolkit.cc:8080"
+basePath: "/api"
+schemes:
+- "https"
+paths:
+  /user/device:
+    get:
+      summary: "Authenticate with your eWeLink credentials."
+      description: "Gets information on registered devices."
+      operationId: "getUserDevices"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "apiKey"
+        in: "query"
+        description: "The API key retrieved at login (UUID)"
+        required: true
+        type: "string"
+      - name: "appVersion"
+        in: "query"
+        description: "The version of the app (e.g. 3.1.5)"
+        required: true
+        type: "string"
+      - name: "getTags"
+        in: "query"
+        description: "1 if tags should be fetched, otherwise 0"
+        required: true
+        type: "integer"
+      - name: "imei"
+        in: "query"
+        description: "A UUID identifing the mobile device"
+        required: true
+        type: "string"
+      - name: "lang"
+        in: "query"
+        description: "The API language (e.g. en)"
+        required: true
+        type: "string"
+      - name: "model"
+        in: "query"
+        description: "The model of the device (e.g. iPhone8,4)"
+        required: true
+        type: "string"
+      - name: "os"
+        in: "query"
+        description: "The os of the device (e.g. iOS)"
+        required: true
+        type: "string"
+      - name: "romVersion"
+        in: "query"
+        description: "The ROM version of the device (e.g. 11.2.5)"
+        required: true
+        type: "string"
+      - name: "version"
+        in: "query"
+        description: "Some version number related to the app (e.g. 6)"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "The API always returns a 200 status but will have an error key if there is an error"
+          schema:
+            $ref: '#/definitions/DeviceResponse'
+
+definitions:
+  DeviceResponse:
+    type: "object"
+    properties:
+      error: 
+        type: "integer"
+        example: 0
+      devicelist:
+        type: "array"
+        items:
+          $ref: "#/definitions/Device"
+  
+  Extra:
+    type: "object"
+    properties:
+      _id: 
+        type: "string"
+        example: 59f9707111a9dad75c66831f
+      extra:
+        type: "object"
+        properties:
+          model: 
+            type: "string"
+            example: PSA-BHA-GL
+          ui: 
+            type: "string"
+            example: 恒温恒湿改装件
+          description: 
+            type: "string"
+            example: WWJG001133
+          manufacturer: 
+            type: "string"
+            example: 深圳创易智能系统有限公司
+          mac:  
+            type: "string"
+            example: 'd0:27:00:43:e1:4c'
+          apmac:  
+            type: "string"
+            example: 'd0:27:00:43:e1:4d'
+          modelInfo:  
+            type: "string"
+            example: 566e54549f6c65fc6f8953c5
+          brandId:  
+            type: "string"
+            example: 5611402280a0e2630f7b102d
+   
+   
+  Params:
+    type: "object"
+    properties:
+      switch: 
+        type: "string"
+        enum:
+        - "on"
+        - "off"
+      targets:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            reaction:
+              type: "object"
+              properties:
+                switch: 
+                  type: "string"
+                  enum:
+                  - "on"
+                  - "off"
+                targetHigh: 
+                  type: "string"
+                  example: "28"
+                targetLow:
+                  type: "string"
+                  example: "22"
+
+      fwVersion: 
+        type: "string"
+        example: 2.0.4
+      sensorType:  
+        type: "string"
+        example: DS18B20
+      currentHumidity:  
+        type: "string"
+        example: unavailable
+      startup:  
+        type: "string"
+        example: 'off'
+      currentTemperature:  
+        type: "string"
+        example: '23'
+      staMac:  
+        type: "string"
+        example: '2C:3A:E8:4F:54:59'
+      rssi:  
+        type: "integer"
+        example: -55
+      mainSwitch:  
+        type: "string"
+        example: 'on'
+      deviceType:  
+        type: "string"
+        example: temperature
+   
+  Device:
+    type: "object"
+    properties:
+      _id: 
+        type: "string"
+        example: 5a8154f27799786992c51e90
+      name:  
+        type: "string"
+        example: Beer Sensor
+      type:  
+        type: "string"
+        example: '10'
+      deviceid:  
+        type: "string"
+        example: 100021f1fe
+      apikey:  
+        type: "string"
+        example: 96ad6769-172e-416f-97bf-d4ce3d0abc72
+      extra:
+        $ref: "#/definitions/Extra"
+      __v:  
+        type: "string"
+        example: 0
+      onlineTime:  
+        type: "string"
+        example: '2018-02-22T07:49:40.601Z'
+      ip:  
+        type: "string"
+        example: 124.171.167.33
+      location:  
+        type: "string"
+        example: ''
+      offlineTime:  
+        type: "string"
+        example: '2018-02-17T02:09:04.841Z'
+      settings:
+        type: "object"
+        properties:
+          opsNotify:
+            type: "integer"
+            example: 0
+          opsHistory: 
+            type: "integer"
+            example: 1
+          alarmNotify:
+            type: "integer"
+            example:  1
+      groups:
+        type: "array"
+        items:
+          type: "string"
+      params:
+        $ref: "#/definitions/Params"
+      online: 
+        type: "boolean"
+        example: true
+      createdAt: 
+        type: "string"
+        format: "date-time"
+        example: "2018-02-12T08:48:50.135Z"
+      group: 
+        type: "string"
+        example: ""
+      sharedTo:
+        type: "array"
+        items:
+          type: "string"
+      devicekey:  
+        type: "string"
+        example: 2ce3e8bb-5e0f-4a48-aee5-46beff3042d1
+      deviceUrl:  
+        type: "string"
+        example: ''
+      brandName:  
+        type: "string"
+        example: Maker
+      showBrand:
+        type: "boolean"
+        example: true
+      productModel:  
+        type: "string"
+        example: Sonoff THS
+      uiid:
+        type: "integer"
+        example: 15
