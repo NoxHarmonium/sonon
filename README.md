@@ -19,7 +19,7 @@ So far I have captures requests using the
 web proxy and have built a swagger model
 for the following endpoints:
 
-- https://api.coolkit.cc:8080:8080/api
+- https://api.coolkit.cc:8080/api
 - https://us-api.coolkit.cc:8080/api
 
 The first one is used globally for initial
@@ -39,7 +39,7 @@ temprature are sent via a websocket
 API at another endpoint
 (wss://us-long.coolkit.cc:8080/api/ws).
 I have started to capture the interactions
-via this API in a [traces file](traces/ws-traces.md).
+via this API in a [traces file](traces/ws-trace.md).
 
 ## Next Steps
 
